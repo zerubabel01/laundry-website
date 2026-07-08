@@ -1,0 +1,210 @@
+/* ==============================
+   THEME VARIABLES
+   Palette: deep teal (clean water) + warm marigold (sun-dried linen).
+   Light mode is the default. Dark mode kicks in
+   when <html data-theme="dark"> is set (see theme.js).
+   ============================== */
+
+:root {
+    --bg: #F4F9F8;
+    --card-bg: #FFFFFF;
+    --border-color: #DCE8E6;
+
+    --text-primary: #0B2E33;
+    --text-secondary: #4E6E70;
+    --text-tertiary: #8AA6A5;
+    --label-color: #2F5457;
+
+    --input-bg: #FFFFFF;
+    --input-border: #C7DBD8;
+
+    --primary: #0E5C63;
+    --primary-dark: #0A4247;
+    --primary-darker: #072F33;
+    --left-panel-text: #CFE8E4;
+
+    --accent: #F2A93B;
+    --accent-dark: #D98F1E;
+
+    --error-bg: #FDEBEA;
+    --error-text: #C0392B;
+
+    --flash-bg: #E3F1EF;
+    --flash-text: #0A4247;
+
+    --status-pending-bg: #FBEACB;
+    --status-pending-text: #93650F;
+    --status-completed-bg: #DCEEE2;
+    --status-completed-text: #276245;
+
+    --table-header-bg: #EFF6F5;
+    --table-row-border: #EAF2F1;
+
+    --dark-btn-bg: #2F5457;
+    --dark-btn-hover: #3E6C6F;
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Work Sans', Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+[data-theme="dark"] {
+    --bg: #07191B;
+    --card-bg: #0F2C2F;
+    --border-color: #1C4247;
+
+    --text-primary: #E8F3F1;
+    --text-secondary: #9FC5C0;
+    --text-tertiary: #6B9491;
+    --label-color: #BEDBD8;
+
+    --input-bg: #07191B;
+    --input-border: #29494C;
+
+    --primary: #4CA6A8;
+    --primary-dark: #3A8B8D;
+    --primary-darker: #2C6E70;
+    --left-panel-text: #BFE3DE;
+
+    --accent: #F2A93B;
+    --accent-dark: #F5BC61;
+
+    --error-bg: #3A1613;
+    --error-text: #F1948A;
+
+    --flash-bg: #123B3E;
+    --flash-text: #CFE8E4;
+
+    --status-pending-bg: #3A2E10;
+    --status-pending-text: #F2C464;
+    --status-completed-bg: #10331F;
+    --status-completed-text: #7FCE9E;
+
+    --table-header-bg: #0A2224;
+    --table-row-border: #1C4247;
+
+    --dark-btn-bg: #29494C;
+    --dark-btn-hover: #3A6467;
+}
+
+/* ==============================
+   TYPOGRAPHY
+   ============================== */
+body {
+    font-family: var(--font-body);
+}
+
+h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
+    font-family: var(--font-display);
+}
+
+.stat-value {
+    font-family: var(--font-mono);
+}
+
+/* ==============================
+   BRAND MARK
+   A stylized washing-machine porthole with a swirl,
+   used in place of a generic icon. Slowly rotates to suggest
+   a drum turning; still for anyone who prefers reduced motion.
+   ============================== */
+.brand-mark {
+    display: inline-block;
+    vertical-align: middle;
+    color: currentColor;
+}
+
+.brand-mark-spin {
+    animation: brand-drum-spin 10s linear infinite;
+    transform-origin: 50% 50%;
+}
+
+@keyframes brand-drum-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-mark-spin {
+        animation: none;
+    }
+}
+
+/* ==============================
+   SIGNATURE: "TICKET STUB" CARDS
+   A nod to a laundry claim ticket - a colored tear-off
+   stripe up top, a dashed edge along the bottom.
+   ============================== */
+.stat-card,
+.order-form-card,
+.table-card {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px dashed var(--border-color);
+}
+
+.stat-card::before,
+.order-form-card::before,
+.table-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* Ensure all form fields respect the current theme */
+input, select, textarea {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+}
+
+input::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* Smooth transition whenever the theme switches */
+body, .card, .stat-card, .order-form-card, .table-card, input, select, .navbar {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ==============================
+   THEME TOGGLE BUTTON
+   ============================== */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: var(--border-color);
+}
+
+/* On the login/register page, float the toggle top-right */
+.theme-toggle-floating {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--card-bg);
+    z-index: 10;
+}
+
+/* Inside the navbar, toggle should sit on a dark background */
+.navbar .theme-toggle {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.navbar .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}

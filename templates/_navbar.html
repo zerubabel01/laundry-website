@@ -1,0 +1,68 @@
+<!-- Top navigation bar (shared across all logged-in pages) -->
+<nav class="navbar">
+    <div class="nav-brand">
+        <svg class="brand-mark" width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="6"/>
+            <g class="brand-mark-spin">
+                <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+                <circle cx="50" cy="50" r="8" fill="currentColor"/>
+            </g>
+        </svg>
+        <span>Laundry Service</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('orders') }}" class="nav-link">Orders</a>
+        <a href="{{ url_for('customers') }}" class="nav-link">Customers</a>
+        <a href="{{ url_for('reports') }}" class="nav-link">Reports</a>
+        <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
+    </div>
+
+    <div class="nav-user">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"></button>
+
+        <!-- Notification bell -->
+        <div class="notification-bell-wrapper">
+            <button id="notification-bell" class="notification-bell" aria-label="Notifications">
+                🔔
+                {% if unread_count and unread_count > 0 %}
+                    <span class="notification-badge">{{ unread_count }}</span>
+                {% endif %}
+            </button>
+            <div id="notification-dropdown" class="notification-dropdown">
+                {% if recent_notifications %}
+                    {% for note in recent_notifications %}
+                        <div class="notification-item {% if not note['is_read'] %}unread{% endif %}">
+                            {{ note["message"] }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="notification-item">No notifications yet.</div>
+                {% endif %}
+                <a href="{{ url_for('notifications') }}" class="notification-view-all">View all</a>
+            </div>
+        </div>
+
+        <span>Hi, {{ session.get('username', '') }}</span>
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+</nav>
+
+<script>
+    // Toggle the notification dropdown open/closed when the bell is clicked
+    document.addEventListener("DOMContentLoaded", function () {
+        const bell = document.getElementById("notification-bell");
+        const dropdown = document.getElementById("notification-dropdown");
+        if (bell && dropdown) {
+            bell.addEventListener("click", function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle("open");
+            });
+            document.addEventListener("click", function () {
+                dropdown.classList.remove("open");
+            });
+        }
+    });
+</script>

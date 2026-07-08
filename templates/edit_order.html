@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#0E5C63">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <title>Edit Order - Laundry Service Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            if (saved === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body>
+
+    {% include "_navbar.html" %}
+
+    <div class="dashboard-content">
+        <h1>Edit Order #{{ order["id"] }}</h1>
+        <p class="subtitle">Update the details below and save your changes.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-box">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="order-form-card">
+            <form method="POST" action="{{ url_for('edit_order', order_id=order['id']) }}" class="edit-form">
+                <label>Customer Name</label>
+                <input type="text" name="customer_name" value="{{ order['customer_name'] }}" required>
+
+                <label>Item Description</label>
+                <input type="text" name="item_description" value="{{ order['item_description'] }}" required>
+
+                <label>Price ($)</label>
+                <input type="number" step="0.01" name="price" value="{{ order['price'] }}" required>
+
+                <label>Status</label>
+                <select name="status">
+                    <option value="Pending" {% if order["status"] == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Completed" {% if order["status"] == "Completed" %}selected{% endif %}>Completed</option>
+                </select>
+
+                <div class="edit-form-buttons">
+                    <button type="submit">Save Changes</button>
+                    <a href="{{ url_for('orders') }}" class="cancel-link">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
+            });
+        }
+    </script>
+
+</body>
+</html>

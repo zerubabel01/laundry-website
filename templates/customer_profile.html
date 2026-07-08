@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#0E5C63">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <title>{{ customer["name"] }} - Laundry Service Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            if (saved === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body>
+
+    {% include "_navbar.html" %}
+
+    <div class="dashboard-content">
+        <h1>{{ customer["name"] }}</h1>
+        <p class="subtitle">
+            <a href="{{ url_for('customers') }}" class="cancel-link">&larr; Back to Customers</a>
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-box">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Contact info -->
+        <div class="order-form-card">
+            <h2>Contact Info</h2>
+            <p class="info-row"><strong>Phone:</strong> {{ customer["phone"] or "Not provided" }}</p>
+            <p class="info-row"><strong>Email:</strong> {{ customer["email"] or "Not provided" }}</p>
+            {% if customer["notes"] %}
+                <p class="info-row"><strong>Notes:</strong> {{ customer["notes"] }}</p>
+            {% endif %}
+            <div class="edit-form-buttons">
+                <a href="{{ url_for('edit_customer', customer_id=customer['id']) }}" class="action-link edit">Edit Info</a>
+            </div>
+        </div>
+
+        <!-- Order stats for this customer -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Total Spent</span>
+                <span class="stat-value">${{ "%.2f"|format(total_spent) }}</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Pending Orders</span>
+                <span class="stat-value">{{ pending_count }}</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Completed Orders</span>
+                <span class="stat-value">{{ completed_count }}</span>
+            </div>
+        </div>
+
+        <!-- Order history -->
+        <div class="table-card">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order["id"] }}</td>
+                        <td>{{ order["item_description"] }}</td>
+                        <td>${{ "%.2f"|format(order["price"]) }}</td>
+                        <td>
+                            <span class="status-badge status-{{ order['status']|lower }}">
+                                {{ order["status"] }}
+                            </span>
+                        </td>
+                        <td>{{ order["created_at"] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="empty-row">No orders yet for this customer.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
+            });
+        }
+    </script>
+
+</body>
+</html>

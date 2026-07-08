@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#0E5C63">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <title>Notifications - Laundry Service Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            if (saved === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body>
+
+    {% include "_navbar.html" %}
+
+    <div class="dashboard-content">
+        <h1>Notifications</h1>
+        <p class="subtitle">Everything that's happened recently.</p>
+
+        {% if notifications %}
+            <div class="edit-form-buttons" style="margin-bottom: 20px;">
+                <a href="{{ url_for('mark_all_read') }}" class="action-link edit">Mark all as read</a>
+            </div>
+        {% endif %}
+
+        <div class="table-card">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>When</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notifications %}
+                    <tr>
+                        <td>
+                            {% if not note["is_read"] %}<strong>{% endif %}
+                            {{ note["message"] }}
+                            {% if not note["is_read"] %}</strong>{% endif %}
+                        </td>
+                        <td>{{ note["created_at"] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty-row">No notifications yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-body);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left branding panel */
+.left-panel {
+    flex: 45;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+}
+
+.badge {
+    width: 90px;
+    height: 90px;
+    background-color: var(--primary-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin-bottom: 24px;
+}
+
+.left-panel h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.left-panel p {
+    font-size: 14px;
+    color: var(--left-panel-text);
+    line-height: 1.5;
+}
+
+/* Right form panel */
+.right-panel {
+    flex: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    width: 380px;
+    max-width: 100%;
+}
+
+.card h2 {
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.card label {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--label-color);
+    margin-bottom: 6px;
+}
+
+.card input {
+    height: 42px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 0 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.card input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.card button {
+    height: 44px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.card button:hover {
+    background-color: var(--primary-dark);
+}
+
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.version {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 20px;
+}
+
+.switch-link {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 20px;
+}
+
+.switch-link a {
+    color: var(--primary);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+}
+
+/* ------------------------------
+   Responsive: tablets and phones
+   ------------------------------ */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .left-panel {
+        flex: none;
+        padding: 30px 20px;
+    }
+
+    .left-panel h1 {
+        font-size: 20px;
+    }
+
+    .left-panel p {
+        font-size: 13px;
+    }
+
+    .badge {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+
+    .right-panel {
+        flex: none;
+        padding: 30px 20px;
+    }
+
+    .card {
+        width: 100%;
+        padding: 30px 20px;
+    }
+}
