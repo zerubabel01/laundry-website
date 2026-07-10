@@ -6,9 +6,9 @@
    ============================== */
 
 :root {
-    --bg: #F4F9F8;
+    --bg: #F2FBFA;
     --card-bg: #FFFFFF;
-    --border-color: #DCE8E6;
+    --border-color: #DCEFEC;
 
     --text-primary: #0B2E33;
     --text-secondary: #4E6E70;
@@ -16,12 +16,12 @@
     --label-color: #2F5457;
 
     --input-bg: #FFFFFF;
-    --input-border: #C7DBD8;
+    --input-border: #C9E6E2;
 
-    --primary: #0E5C63;
-    --primary-dark: #0A4247;
-    --primary-darker: #072F33;
-    --left-panel-text: #CFE8E4;
+    --primary: #17B6B0;
+    --primary-dark: #109A95;
+    --primary-darker: #0B7873;
+    --left-panel-text: #DFF7F3;
 
     --accent: #F2A93B;
     --accent-dark: #D98F1E;
@@ -29,19 +29,28 @@
     --error-bg: #FDEBEA;
     --error-text: #C0392B;
 
-    --flash-bg: #E3F1EF;
-    --flash-text: #0A4247;
+    --flash-bg: #E1F6F3;
+    --flash-text: #0B7873;
 
     --status-pending-bg: #FBEACB;
     --status-pending-text: #93650F;
     --status-completed-bg: #DCEEE2;
     --status-completed-text: #276245;
 
-    --table-header-bg: #EFF6F5;
-    --table-row-border: #EAF2F1;
+    --table-header-bg: #EEFAF8;
+    --table-row-border: #E7F5F3;
 
-    --dark-btn-bg: #2F5457;
-    --dark-btn-hover: #3E6C6F;
+    --dark-btn-bg: #0B2E33;
+    --dark-btn-hover: #123F45;
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+
+    --shadow-card: 0 4px 16px rgba(11, 46, 51, 0.06);
+    --shadow-card-hover: 0 14px 32px rgba(11, 46, 51, 0.12);
+    --shadow-btn: 0 8px 20px rgba(23, 182, 176, 0.28);
 
     --font-display: 'Fraunces', Georgia, serif;
     --font-body: 'Work Sans', Arial, sans-serif;
@@ -61,10 +70,10 @@
     --input-bg: #07191B;
     --input-border: #29494C;
 
-    --primary: #4CA6A8;
-    --primary-dark: #3A8B8D;
-    --primary-darker: #2C6E70;
-    --left-panel-text: #BFE3DE;
+    --primary: #2FD4CC;
+    --primary-dark: #22B3AC;
+    --primary-darker: #1A8E88;
+    --left-panel-text: #C8F5EF;
 
     --accent: #F2A93B;
     --accent-dark: #F5BC61;
@@ -83,8 +92,12 @@
     --table-header-bg: #0A2224;
     --table-row-border: #1C4247;
 
-    --dark-btn-bg: #29494C;
-    --dark-btn-hover: #3A6467;
+    --dark-btn-bg: #123F45;
+    --dark-btn-hover: #1C525A;
+
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.25);
+    --shadow-card-hover: 0 14px 32px rgba(0, 0, 0, 0.35);
+    --shadow-btn: 0 8px 20px rgba(47, 212, 204, 0.28);
 }
 
 /* ==============================
@@ -139,7 +152,9 @@ h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
 .table-card {
     position: relative;
     overflow: hidden;
-    border-bottom: 2px dashed var(--border-color);
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
 }
 
 .stat-card::before,
@@ -154,10 +169,72 @@ h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
     background: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
+/* ==============================
+   GLOBAL POLISH: page entrance + consistent interactions
+   ============================== */
+
+/* Every page fades in gently on load, instead of appearing instantly */
+body {
+    animation: page-fade-in 0.35s ease both;
+}
+
+@keyframes page-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Every button gets a consistent lift-on-hover, press-on-click feel,
+   unless it already defines its own transform (like the theme toggle icon) */
+button:not(.theme-toggle):not(.notification-bell) {
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+button:not(.theme-toggle):not(.notification-bell):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+button:not(.theme-toggle):not(.notification-bell):active {
+    transform: translateY(0);
+}
+
+/* Action links (Edit/Complete/Delete/View) get a smooth color transition */
+.action-link {
+    transition: opacity 0.15s ease;
+}
+
+.action-link:hover {
+    opacity: 0.7;
+}
+
+/* Flash/error messages slide down and fade in, like a toast notification,
+   instead of just appearing abruptly at the top of the page */
+.flash-box,
+.error-message {
+    animation: toast-in 0.35s ease both;
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body, .flash-box, .error-message {
+        animation: none;
+    }
+    button:hover, button:active {
+        transform: none;
+    }
+}
+
 /* Ensure all form fields respect the current theme */
 input, select, textarea {
     background-color: var(--input-bg);
     color: var(--text-primary);
+    border-radius: var(--radius-sm);
 }
 
 input::placeholder {
@@ -199,12 +276,12 @@ body, .card, .stat-card, .order-form-card, .table-card, input, select, .navbar {
     z-index: 10;
 }
 
-/* Inside the navbar, toggle should sit on a dark background */
+/* Inside the navbar, toggle matches the light bar background */
 .navbar .theme-toggle {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: white;
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
 .navbar .theme-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: var(--table-header-bg);
 }

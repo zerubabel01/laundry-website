@@ -31,15 +31,48 @@
 
         <!-- Left branding panel -->
         <div class="left-panel">
-            <div class="badge"><svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <g class="brand-mark-spin">
-                        <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                        <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
-                        <circle cx="50" cy="50" r="9" fill="currentColor"/>
+            <!-- Floating bubbles (decorative) -->
+            <div class="bubble bubble-1"></div>
+            <div class="bubble bubble-2"></div>
+            <div class="bubble bubble-3"></div>
+            <div class="bubble bubble-4"></div>
+
+            <div class="left-panel-content">
+                <div class="badge"><svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <g class="brand-mark-spin">
+                            <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                            <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
+                            <circle cx="50" cy="50" r="9" fill="currentColor"/>
+                        </g>
+                    </svg></div>
+                <h1>Laundry Service<br>Management System</h1>
+                <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
+
+                <!-- Clothesline illustration -->
+                <svg class="clothesline" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <line x1="10" y1="15" x2="290" y2="15" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+
+                    <g class="garment garment-1">
+                        <rect x="35" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                        <path d="M15 25 L35 25 L40 35 L40 75 L10 75 L10 35 Z" fill="currentColor" opacity="0.85"/>
                     </g>
-                </svg></div>
-            <h1>Laundry Service<br>Management System</h1>
-            <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
+
+                    <g class="garment garment-2">
+                        <rect x="95" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                        <path d="M75 25 Q97 18 119 25 L124 40 L112 44 L112 90 L82 90 L82 44 L70 40 Z" fill="currentColor" opacity="0.7"/>
+                    </g>
+
+                    <g class="garment garment-3">
+                        <rect x="160" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                        <ellipse cx="162" cy="55" rx="18" ry="32" fill="currentColor" opacity="0.85"/>
+                    </g>
+
+                    <g class="garment garment-4">
+                        <rect x="230" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                        <path d="M212 25 L232 25 L237 35 L237 70 L207 70 L207 35 Z" fill="currentColor" opacity="0.7"/>
+                    </g>
+                </svg>
+            </div>
         </div>
 
         <!-- Right login form panel -->
@@ -69,7 +102,7 @@
                     <button type="submit">Login</button>
                 </form>
 
-                <p class="version">Version 1.1</p>
+                <p class="version">Version 1.0</p>
                 <p class="switch-link">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
             </div>
         </div>

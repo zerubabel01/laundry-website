@@ -18,7 +18,7 @@ body {
 /* Left branding panel */
 .left-panel {
     flex: 45;
-    background-color: var(--primary);
+    background: radial-gradient(circle at 30% 20%, var(--primary-dark) 0%, var(--primary) 45%, var(--primary-darker) 100%);
     color: white;
     display: flex;
     flex-direction: column;
@@ -31,7 +31,8 @@ body {
 .badge {
     width: 90px;
     height: 90px;
-    background-color: var(--primary-dark);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -61,8 +62,9 @@ body {
 
 .card {
     background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card-hover);
     padding: 40px;
     width: 380px;
     max-width: 100%;
@@ -193,5 +195,108 @@ body {
     .card {
         width: 100%;
         padding: 30px 20px;
+    }
+}
+
+/* ------------------------------
+   ANIMATIONS: entrance, illustration, micro-interactions
+   ------------------------------ */
+
+/* Card and left-panel content fade/slide in on page load */
+.left-panel-content {
+    animation: fade-slide-in 0.7s ease both;
+}
+
+.card {
+    animation: fade-slide-up 0.6s ease 0.1s both;
+}
+
+@keyframes fade-slide-in {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fade-slide-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating decorative bubbles in the left panel */
+.left-panel {
+    position: relative;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.12);
+    animation: bubble-rise 9s ease-in infinite;
+}
+
+.bubble-1 { width: 26px; height: 26px; left: 15%; bottom: -10%; animation-delay: 0s; }
+.bubble-2 { width: 14px; height: 14px; left: 70%; bottom: -10%; animation-delay: 2.2s; }
+.bubble-3 { width: 34px; height: 34px; left: 45%; bottom: -10%; animation-delay: 4.5s; }
+.bubble-4 { width: 18px; height: 18px; left: 85%; bottom: -10%; animation-delay: 6.5s; }
+
+@keyframes bubble-rise {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    10%  { opacity: 0.9; }
+    90%  { opacity: 0.3; }
+    100% { transform: translateY(-320px) scale(1.15); opacity: 0; }
+}
+
+/* Clothesline illustration with gently swaying garments */
+.clothesline {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 32px;
+    color: white;
+}
+
+.garment {
+    transform-origin: top center;
+    animation: garment-sway 3.4s ease-in-out infinite;
+}
+
+.garment-1 { animation-delay: 0s; }
+.garment-2 { animation-delay: 0.5s; }
+.garment-3 { animation-delay: 1s; }
+.garment-4 { animation-delay: 0.3s; }
+
+@keyframes garment-sway {
+    0%, 100% { transform: rotate(-2.5deg); }
+    50% { transform: rotate(2.5deg); }
+}
+
+/* Button micro-interactions: lift on hover, press on click */
+.card button {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(23, 182, 176, 0.28);
+}
+
+.card button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Input focus micro-interaction */
+.card input {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card input:focus {
+    box-shadow: 0 0 0 3px rgba(23, 182, 176, 0.18);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .left-panel-content, .card, .bubble, .garment {
+        animation: none;
     }
 }

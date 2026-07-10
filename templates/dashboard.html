@@ -34,19 +34,19 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="stat-label">Total Orders</span>
-                <span class="stat-value">{{ total_orders }}</span>
+                <span class="stat-value" data-value="{{ total_orders }}" data-decimals="0">0</span>
             </div>
             <div class="stat-card">
                 <span class="stat-label">Pending Orders</span>
-                <span class="stat-value">{{ pending_orders }}</span>
+                <span class="stat-value" data-value="{{ pending_orders }}" data-decimals="0">0</span>
             </div>
             <div class="stat-card">
                 <span class="stat-label">Completed Today</span>
-                <span class="stat-value">{{ completed_today }}</span>
+                <span class="stat-value" data-value="{{ completed_today }}" data-decimals="0">0</span>
             </div>
             <div class="stat-card">
                 <span class="stat-label">Revenue Today</span>
-                <span class="stat-value">${{ "%.2f"|format(revenue_today) }}</span>
+                <span class="stat-value" data-value="{{ revenue_today }}" data-decimals="2" data-prefix="$">$0.00</span>
             </div>
         </div>
 
@@ -54,6 +54,38 @@
     </div>
 
     <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+    <script>
+        // Animate each stat number counting up from 0 to its real value
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.stat-value[data-value]').forEach(function (el, index) {
+                const target = parseFloat(el.getAttribute('data-value')) || 0;
+                const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+                const prefix = el.getAttribute('data-prefix') || '';
+                const duration = 800;
+                const startDelay = index * 100; // stagger each card slightly
+
+                setTimeout(function () {
+                    const startTime = performance.now();
+
+                    function step(now) {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+                        const current = target * eased;
+                        el.textContent = prefix + current.toFixed(decimals);
+
+                        if (progress < 1) {
+                            requestAnimationFrame(step);
+                        } else {
+                            el.textContent = prefix + target.toFixed(decimals);
+                        }
+                    }
+                    requestAnimationFrame(step);
+                }, startDelay);
+            });
+        });
+    </script>
 
     <script>
         if ('serviceWorker' in navigator) {
