@@ -6,14 +6,35 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <meta name="theme-color" content="#0E5C63">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Login - Laundry Service Management System</title>
+    <title>Login - Laundry Service</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        /* Success message styling */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #c3e6cb;
+        }
+        .success-message p {
+            margin: 0;
+        }
+    </style>
+    
+    <!-- Theme Script -->
     <script>
-        // Apply saved theme immediately, before the page renders, to avoid a flash
         (function () {
             var saved = localStorage.getItem('theme');
             if (saved === 'dark') {
@@ -24,100 +45,106 @@
 </head>
 <body>
 
-    <button id="theme-toggle" class="theme-toggle theme-toggle-floating" aria-label="Toggle dark mode"></button>
+<!-- Floating theme toggle -->
+<button id="theme-toggle" class="theme-toggle theme-toggle-floating" aria-label="Toggle dark mode"></button>
 
+<div class="container">
+    <!-- Left branding panel -->
+    <div class="left-panel">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
 
-    <div class="container">
-
-        <!-- Left branding panel -->
-        <div class="left-panel">
-            <!-- Floating bubbles (decorative) -->
-            <div class="bubble bubble-1"></div>
-            <div class="bubble bubble-2"></div>
-            <div class="bubble bubble-3"></div>
-            <div class="bubble bubble-4"></div>
-
-            <div class="left-panel-content">
-                <div class="badge"><svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <g class="brand-mark-spin">
-                            <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                            <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
-                            <circle cx="50" cy="50" r="9" fill="currentColor"/>
-                        </g>
-                    </svg></div>
-                <h1>Laundry Service<br>Management System</h1>
-                <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
-
-                <!-- Clothesline illustration -->
-                <svg class="clothesline" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <line x1="10" y1="15" x2="290" y2="15" stroke="currentColor" stroke-width="2" opacity="0.5"/>
-
-                    <g class="garment garment-1">
-                        <rect x="35" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M15 25 L35 25 L40 35 L40 75 L10 75 L10 35 Z" fill="currentColor" opacity="0.85"/>
-                    </g>
-
-                    <g class="garment garment-2">
-                        <rect x="95" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M75 25 Q97 18 119 25 L124 40 L112 44 L112 90 L82 90 L82 44 L70 40 Z" fill="currentColor" opacity="0.7"/>
-                    </g>
-
-                    <g class="garment garment-3">
-                        <rect x="160" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <ellipse cx="162" cy="55" rx="18" ry="32" fill="currentColor" opacity="0.85"/>
-                    </g>
-
-                    <g class="garment garment-4">
-                        <rect x="230" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M212 25 L232 25 L237 35 L237 70 L207 70 L207 35 Z" fill="currentColor" opacity="0.7"/>
+        <div class="left-panel-content">
+            <div class="badge">
+                <svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <g class="brand-mark-spin">
+                        <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                        <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="9" fill="currentColor"/>
                     </g>
                 </svg>
             </div>
+            <h1>Laundry Service<br>Management System</h1>
+            <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
+
+            <svg class="clothesline" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <line x1="10" y1="15" x2="290" y2="15" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                <g class="garment garment-1">
+                    <rect x="35" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M15 25 L35 25 L40 35 L40 75 L10 75 L10 35 Z" fill="currentColor" opacity="0.85"/>
+                </g>
+                <g class="garment garment-2">
+                    <rect x="95" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M75 25 Q97 18 119 25 L124 40 L112 44 L112 90 L82 90 L82 44 L70 40 Z" fill="currentColor" opacity="0.7"/>
+                </g>
+                <g class="garment garment-3">
+                    <rect x="160" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <ellipse cx="162" cy="55" rx="18" ry="32" fill="currentColor" opacity="0.85"/>
+                </g>
+                <g class="garment garment-4">
+                    <rect x="230" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M212 25 L232 25 L237 35 L237 70 L207 70 L207 35 Z" fill="currentColor" opacity="0.7"/>
+                </g>
+            </svg>
         </div>
-
-        <!-- Right login form panel -->
-        <div class="right-panel">
-            <div class="card">
-                <h2>Welcome Back</h2>
-                <p class="subtitle">Please sign in to continue</p>
-
-                <!-- Show error messages from Flask (flash messages) -->
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <div class="error-message">
-                            {% for message in messages %}
-                                <p>{{ message }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-
-                <form method="POST" action="/">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
-
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-                    <button type="submit">Login</button>
-                </form>
-
-                <p class="version">Version 1.0</p>
-                <p class="switch-link">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
-            </div>
-        </div>
-
     </div>
 
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <!-- Right login form panel -->
+    <div class="right-panel">
+        <div class="card">
+            <h2>🔐 Welcome Back</h2>
+            <p class="subtitle">Please sign in to continue</p>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if "created" in message.lower() or "success" in message.lower() %}
+                            <div class="success-message">
+                                <p>✅ {{ message }}</p>
+                            </div>
+                        {% else %}
+                            <div class="error-message">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p class="switch-link">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then(function(reg) {
+                    console.log('Service Worker registered successfully');
+                })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed:', err);
+                });
+        });
+    }
+</script>
 
 </body>
 </html>

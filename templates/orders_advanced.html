@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block title %}Orders - Laundry Service{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    .service-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .badge-Wash { background: #dbeafe; color: #1e40af; }
+    .badge-Dry { background: #fce7f3; color: #9d174d; }
+    .badge-Iron { background: #fef3c7; color: #92400e; }
+    .badge-WashIron { background: #d1fae5; color: #065f46; }
+    
+    .status-Pending { background: #fef3c7; color: #92400e; }
+    .status-Completed { background: #d1fae5; color: #065f46; }
+    
+    .payment-Cash { background: #d1fae5; color: #065f46; }
+    .payment-Card { background: #e0e7ff; color: #3730a3; }
+    .payment-Mobile { background: #fce7f3; color: #9d174d; }
+    .payment-Bank { background: #fef3c7; color: #92400e; }
+    
+    .order-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-card);
+        transition: all 0.2s ease;
+    }
+    .order-card:hover {
+        box-shadow: var(--shadow-card-hover);
+        transform: translateY(-2px);
+    }
+    
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    .order-id {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    
+    .order-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 24px;
+        margin: 10px 0;
+    }
+    .order-body .label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .order-body .value {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .order-body .full-width {
+        grid-column: 1 / -1;
+    }
+    
+    .order-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .btn {
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.15s ease;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    .btn:active {
+        transform: translateY(0);
+    }
+    
+    .btn-complete { background: #10b981; color: white; }
+    .btn-complete:hover { background: #059669; }
+    
+    .btn-notify { background: #f59e0b; color: white; }
+    .btn-notify:hover { background: #d97706; }
+    
+    .btn-edit { background: var(--primary); color: white; }
+    .btn-edit:hover { background: var(--primary-dark); }
+    
+    .btn-delete { background: #ef4444; color: white; }
+    .btn-delete:hover { background: #dc2626; }
+    
+    .btn-sm { padding: 4px 12px; font-size: 12px; }
+    
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .stat-item {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 12px 16px;
+        text-align: center;
+    }
+    .stat-item .number {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary);
+    }
+    .stat-item .label {
+        font-size: 11px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .email-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    @media (max-width: 768px) {
+        .order-body { grid-template-columns: 1fr; gap: 4px; }
+        .order-header { flex-direction: column; }
+        .order-footer { flex-direction: column; align-items: stretch; }
+        .btn-group { justify-content: center; }
+        .stats-bar { grid-template-columns: repeat(3, 1fr); }
+        .order-form-card .order-form { flex-direction: column; }
+        .order-form-card .order-form input,
+        .order-form-card .order-form select { width: 100%; }
+    }
+    @media (max-width: 480px) {
+        .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        .btn-group .btn { font-size: 11px; padding: 4px 10px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "_navbar.html" %}
+
+<div class="dashboard-content">
+    <h1>📋 Orders Management</h1>
+    <p class="subtitle">Manage orders and mark them as completed</p>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-box">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Stats Bar -->
+    {% set total = orders|length %}
+    {% set pending = 0 %}
+    {% set completed = 0 %}
+    
+    {% for order in orders %}
+        {% if order["status"] == "Pending" %}{% set pending = pending + 1 %}{% endif %}
+        {% if order["status"] == "Completed" %}{% set completed = completed + 1 %}{% endif %}
+    {% endfor %}
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="number">{{ total }}</div>
+            <div class="label">📋 Total Orders</div>
+        </div>
+        <div class="stat-item">
+            <div class="number">{{ pending }}</div>
+            <div class="label">⏳ Pending</div>
+        </div>
+        <div class="stat-item">
+            <div class="number">{{ completed }}</div>
+            <div class="label">✅ Completed</div>
+        </div>
+    </div>
+
+    <!-- Add Order Form -->
+    <div class="order-form-card">
+        <h2>➕ New Order</h2>
+        <form method="POST" action="{{ url_for('orders_advanced') }}" class="order-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="text" name="customer_name" placeholder="👤 Customer name" required>
+            <input type="text" name="item_description" placeholder="👕 Items" required>
+            <input type="number" step="0.01" name="price" placeholder="💰 Price ($)" required>
+            <select name="service_type">
+                <option value="Wash & Fold">🧺 Wash & Fold</option>
+                <option value="Dry Clean">👔 Dry Clean</option>
+                <option value="Iron Only">👕 Iron Only</option>
+                <option value="Wash & Iron">👔 Wash & Iron</option>
+            </select>
+            <select name="payment_method">
+                <option value="Cash">💰 Cash</option>
+                <option value="Card">💳 Card</option>
+                <option value="Mobile Money">📱 Mobile Money</option>
+                <option value="Bank Transfer">🏦 Bank Transfer</option>
+            </select>
+            <input type="text" name="pickup_address" placeholder="📍 Pickup address (optional)">
+            <input type="text" name="delivery_address" placeholder="🏠 Delivery address (optional)">
+            <button type="submit">➕ Add Order</button>
+        </form>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <form method="GET" action="{{ url_for('orders_advanced') }}" class="filter-form">
+            <input type="text" name="search" placeholder="🔍 Search customer..." value="{{ search or '' }}">
+            <select name="status">
+                <option value="">📊 All Statuses</option>
+                <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>⏳ Pending</option>
+                <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>✅ Completed</option>
+            </select>
+            <select name="service_type">
+                <option value="">🧺 All Services</option>
+                <option value="Wash & Fold" {% if service_filter == "Wash & Fold" %}selected{% endif %}>🧺 Wash & Fold</option>
+                <option value="Dry Clean" {% if service_filter == "Dry Clean" %}selected{% endif %}>👔 Dry Clean</option>
+                <option value="Iron Only" {% if service_filter == "Iron Only" %}selected{% endif %}>👕 Iron Only</option>
+                <option value="Wash & Iron" {% if service_filter == "Wash & Iron" %}selected{% endif %}>👔 Wash & Iron</option>
+            </select>
+            <button type="submit" class="filter-btn">🔍 Filter</button>
+            {% if search or status_filter or service_filter %}
+                <a href="{{ url_for('orders_advanced') }}" class="clear-link">✕ Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Orders List -->
+    {% for order in orders %}
+    <div class="order-card">
+        <!-- Header -->
+        <div class="order-header">
+            <div>
+                <span class="order-id">#{{ order["id"] }}</span>
+                <span class="status-badge status-{{ order['status'] }}">
+                    {{ order["status"] }}
+                </span>
+                <span class="service-badge badge-{{ order['service_type']|replace('&', '')|replace(' ', '') }}">
+                    {{ order["service_type"] }}
+                </span>
+                <span class="service-badge payment-{{ order['payment_method']|replace(' ', '') }}">
+                    💳 {{ order["payment_method"] }}
+                </span>
+                {% if order["status"] == "Completed" %}
+                    <span class="email-badge">📧 Email Sent</span>
+                {% endif %}
+            </div>
+            <div style="font-size:18px; font-weight:700; color:var(--primary);">
+                ${{ "%.2f"|format(order["price"]) }}
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="order-body">
+            <div>
+                <div class="label">👤 Customer</div>
+                <div class="value">{{ order["customer_name"] }}</div>
+            </div>
+            <div>
+                <div class="label">👕 Items</div>
+                <div class="value">{{ order["item_description"] }}</div>
+            </div>
+            <div>
+                <div class="label">📅 Created</div>
+                <div class="value">{{ order["created_at"] }}</div>
+            </div>
+            <div>
+                <div class="label">💲 Price</div>
+                <div class="value">${{ "%.2f"|format(order["price"]) }}</div>
+            </div>
+            {% if order["pickup_address"] and order["pickup_address"] != "" %}
+            <div class="full-width">
+                <div class="label">📍 Pickup Address</div>
+                <div class="value">{{ order["pickup_address"] }}</div>
+            </div>
+            {% endif %}
+            {% if order["delivery_address"] and order["delivery_address"] != "" %}
+            <div class="full-width">
+                <div class="label">🏠 Delivery Address</div>
+                <div class="value">{{ order["delivery_address"] }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer - Actions -->
+        <div class="order-footer">
+            <div style="font-size:12px; color:var(--text-secondary);">
+                📅 {{ order["created_at"] }}
+            </div>
+            
+            <div class="btn-group">
+                <!-- COMPLETE BUTTON - Only for Pending orders -->
+                {% if order["status"] == "Pending" %}
+                    <form method="POST" action="{{ url_for('complete_order', order_id=order['id']) }}" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-complete btn-sm" onclick="return confirm('Complete order #{{ order['id'] }} and send email?');">
+                            ✅ Complete & Send Email
+                        </button>
+                    </form>
+                {% endif %}
+                
+                <!-- Resend Email - Only for Completed orders -->
+                {% if order["status"] == "Completed" %}
+                    <a href="{{ url_for('notify_customer', order_id=order['id']) }}" class="btn btn-notify btn-sm">📧 Resend Email</a>
+                {% endif %}
+                
+                <!-- Action Links -->
+                <a href="{{ url_for('edit_order', order_id=order['id']) }}" class="btn btn-edit btn-sm">✏️ Edit</a>
+                <a href="{{ url_for('delete_order', order_id=order['id']) }}" class="btn btn-delete btn-sm" onclick="return confirm('Delete order #{{ order['id'] }}?');">🗑️ Delete</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="order-card" style="text-align:center; color:var(--text-tertiary); padding:60px 20px;">
+        <div style="font-size:48px; margin-bottom:16px;">📭</div>
+        <h3 style="font-weight:400;">No Orders Yet</h3>
+        <p>Add your first order using the form above!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Offline - Laundry Service{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .offline-page {
+        text-align: center;
+        padding: 80px 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .offline-page .icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+    }
+    .offline-page h1 {
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+    .offline-page p {
+        color: var(--text-secondary);
+        margin-bottom: 30px;
+    }
+    .offline-page .btn {
+        display: inline-block;
+        padding: 12px 32px;
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: var(--radius-pill);
+        font-weight: bold;
+    }
+    .offline-page .btn:hover {
+        background-color: var(--primary-dark);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="offline-page">
+        <div class="icon">📡</div>
+        <h1>You're Offline</h1>
+        <p>Please reconnect to the internet to use the app.</p>
+        <button class="btn" onclick="location.reload()">Try Again</button>
+    </div>
+</div>
+{% endblock %}

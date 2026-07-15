@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Loyalty Rewards - Laundry Service{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    .loyalty-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 20px;
+        margin-bottom: 16px;
+    }
+    .points-display {
+        font-size: 36px;
+        font-weight: bold;
+        color: var(--accent);
+    }
+    .rank-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .rank-gold { background: #fbbf24; color: #78350f; }
+    .rank-silver { background: #9ca3af; color: #1f2937; }
+    .rank-bronze { background: #d97706; color: #fff; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "_navbar.html" %}
+
+<div class="dashboard-content">
+    <h1>⭐ Loyalty Rewards</h1>
+    <p class="subtitle">Top customers by loyalty points</p>
+
+    <div class="loyalty-card">
+        <h2>How It Works</h2>
+        <p style="color:var(--text-secondary);">
+            💰 Earn <strong>1 point</strong> for every <strong>$10</strong> spent on laundry services.<br>
+            🏆 Redeem points for discounts and special offers!
+        </p>
+    </div>
+
+    <div class="table-card">
+        <table class="orders-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>⭐ Points</th>
+                    <th>📋 Orders</th>
+                    <th>💰 Total Spent</th>
+                    <th>🏆 Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ customer["name"] }}</td>
+                    <td><strong>{{ customer["loyalty_points"] }}</strong></td>
+                    <td>{{ customer["total_orders"] }}</td>
+                    <td>${{ "%.2f"|format(customer["total_spent"]) }}</td>
+                    <td>
+                        {% if customer["loyalty_points"] >= 100 %}
+                            <span class="rank-badge rank-gold">🥇 Gold</span>
+                        {% elif customer["loyalty_points"] >= 50 %}
+                            <span class="rank-badge rank-silver">🥈 Silver</span>
+                        {% elif customer["loyalty_points"] >= 20 %}
+                            <span class="rank-badge rank-bronze">🥉 Bronze</span>
+                        {% else %}
+                            <span style="color:var(--text-tertiary);">New</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="empty-row">No loyalty data yet. Complete orders to earn points!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,137 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#0E5C63">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Orders - Laundry Service Management System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <script>
-        (function () {
-            var saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
 
-    {% include "_navbar.html" %}
+{% block title %}Orders - Laundry Service{% endblock %}
 
-    <div class="dashboard-content">
-        <h1>Orders</h1>
-        <p class="subtitle">Add new orders and track their status.</p>
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+{% endblock %}
 
-        <!-- Flash messages -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-box">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+{% block content %}
+{% include "_navbar.html" %}
 
-        <!-- Add order form -->
-        <div class="order-form-card">
-            <h2>Add New Order</h2>
-            <form method="POST" action="{{ url_for('orders') }}" class="order-form">
-                <input type="text" name="customer_name" placeholder="Customer name" required>
-                <input type="text" name="item_description" placeholder="e.g. 2x shirts, 1x bedsheet" required>
-                <input type="number" step="0.01" name="price" placeholder="Price ($)" required>
-                <button type="submit">Add Order</button>
-            </form>
-        </div>
+<div class="dashboard-content">
+    <h1>Orders</h1>
+    <p class="subtitle">Add new orders and track their status.</p>
 
-        <!-- Search and filter -->
-        <div class="filter-bar">
-            <form method="GET" action="{{ url_for('orders') }}" class="filter-form">
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by customer name..."
-                    value="{{ search }}"
-                >
-                <select name="status">
-                    <option value="" {% if not status_filter %}selected{% endif %}>All statuses</option>
-                    <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
-                    <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>Completed</option>
-                </select>
-                <button type="submit">Filter</button>
-                {% if search or status_filter %}
-                    <a href="{{ url_for('orders') }}" class="clear-link">Clear</a>
-                {% endif %}
-            </form>
-        </div>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-box">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-        <!-- Orders table -->
-        <div class="table-card">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Customer</th>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for order in orders %}
-                    <tr>
-                        <td>{{ order["id"] }}</td>
-                        <td>{{ order["customer_name"] }}</td>
-                        <td>{{ order["item_description"] }}</td>
-                        <td>${{ "%.2f"|format(order["price"]) }}</td>
-                        <td>
-                            <span class="status-badge status-{{ order['status']|lower }}">
-                                {{ order["status"] }}
-                            </span>
-                        </td>
-                        <td>{{ order["created_at"] }}</td>
-                        <td class="actions">
-                            {% if order["status"] != "Completed" %}
-                                <a href="{{ url_for('complete_order', order_id=order['id']) }}" class="action-link complete">Complete</a>
-                            {% endif %}
-                            <a href="{{ url_for('edit_order', order_id=order['id']) }}" class="action-link edit">Edit</a>
-                            <a href="{{ url_for('delete_order', order_id=order['id']) }}" class="action-link delete" onclick="return confirm('Delete this order?');">Delete</a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="7" class="empty-row">
-                            {% if search or status_filter %}
-                                No orders match your filters.
-                            {% else %}
-                                No orders yet. Add your first order above.
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <!-- Add order form -->
+    <div class="order-form-card">
+        <h2>Add New Order</h2>
+        <form method="POST" action="{{ url_for('orders') }}" class="order-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="text" name="customer_name" placeholder="Customer name" required>
+            <input type="text" name="item_description" placeholder="e.g. 2x shirts, 1x bedsheet" required>
+            <input type="number" step="0.01" name="price" placeholder="Price ($)" required>
+            <button type="submit">Add Order</button>
+        </form>
     </div>
 
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <!-- Search and filter -->
+    <div class="filter-bar">
+        <form method="GET" action="{{ url_for('orders') }}" class="filter-form">
+            <input type="text" name="search" placeholder="Search by customer name..." value="{{ search }}">
+            <select name="status">
+                <option value="" {% if not status_filter %}selected{% endif %}>All statuses</option>
+                <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+                <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>Completed</option>
+            </select>
+            <button type="submit">Filter</button>
+            {% if search or status_filter %}
+                <a href="{{ url_for('orders') }}" class="clear-link">Clear</a>
+            {% endif %}
+        </form>
+    </div>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
-
-</body>
-</html>
+    <!-- Orders table -->
+    <div class="table-card">
+        <table class="orders-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order["id"] }}</td>
+                    <td>{{ order["customer_name"] }}</td>
+                    <td>{{ order["item_description"] }}</td>
+                    <td>${{ "%.2f"|format(order["price"]) }}</td>
+                    <td>
+                        <span class="status-badge status-{{ order['status']|lower }}">
+                            {{ order["status"] }}
+                        </span>
+                    </td>
+                    <td>{{ order["created_at"] }}</td>
+                    <td class="actions">
+                        {% if order["status"] != "Completed" %}
+                            <a href="{{ url_for('complete_order', order_id=order['id']) }}" class="action-link complete">Complete</a>
+                        {% endif %}
+                        <a href="{{ url_for('edit_order', order_id=order['id']) }}" class="action-link edit">Edit</a>
+                        <a href="{{ url_for('delete_order', order_id=order['id']) }}" class="action-link delete" onclick="return confirm('Delete this order?');">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="empty-row">
+                        {% if search or status_filter %}
+                            No orders match your filters.
+                        {% else %}
+                            No orders yet. Add your first order above.
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

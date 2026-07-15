@@ -1,97 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#0E5C63">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Customers - Laundry Service Management System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <script>
-        (function () {
-            var saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
 
-    {% include "_navbar.html" %}
+{% block title %}Customers - Laundry Service{% endblock %}
 
-    <div class="dashboard-content">
-        <h1>Customers</h1>
-        <p class="subtitle">Register new customers and manage their profiles.</p>
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    .customer-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        transition: all 0.2s ease;
+    }
+    .customer-card:hover {
+        box-shadow: var(--shadow-card-hover);
+        transform: translateY(-2px);
+    }
+    .customer-info {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .customer-name {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .customer-detail {
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+    .customer-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .btn {
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.15s ease;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    .btn-view { background: var(--primary); color: white; }
+    .btn-view:hover { background: var(--primary-dark); }
+    .btn-edit { background: #f59e0b; color: white; }
+    .btn-edit:hover { background: #d97706; }
+    .btn-delete { background: #ef4444; color: white; }
+    .btn-delete:hover { background: #dc2626; }
+    
+    .customer-stats {
+        display: flex;
+        gap: 16px;
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+    .customer-stats span {
+        background: var(--bg);
+        padding: 2px 10px;
+        border-radius: 999px;
+    }
+    
+    @media (max-width: 768px) {
+        .customer-card {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .customer-info {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .customer-actions {
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-box">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+{% block content %}
+{% include "_navbar.html" %}
 
-        <!-- Register customer form -->
-        <div class="order-form-card">
-            <h2>Register New Customer</h2>
-            <form method="POST" action="{{ url_for('customers') }}" class="order-form">
-                <input type="text" name="name" placeholder="Full name" required>
-                <input type="text" name="phone" placeholder="Phone number">
-                <input type="email" name="email" placeholder="Email address">
-                <input type="text" name="notes" placeholder="Notes (optional)">
-                <button type="submit">Register</button>
-            </form>
-        </div>
+<div class="dashboard-content">
+    <h1>👥 Customers</h1>
+    <p class="subtitle">Manage your customer database</p>
 
-        <!-- Customers table -->
-        <div class="table-card">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for customer in customers %}
-                    <tr>
-                        <td><a href="{{ url_for('customer_profile', customer_id=customer['id']) }}" class="action-link edit">{{ customer["name"] }}</a></td>
-                        <td>{{ customer["phone"] or "-" }}</td>
-                        <td>{{ customer["email"] or "-" }}</td>
-                        <td class="actions">
-                            <a href="{{ url_for('customer_profile', customer_id=customer['id']) }}" class="action-link edit">View</a>
-                            <a href="{{ url_for('delete_customer', customer_id=customer['id']) }}" class="action-link delete" onclick="return confirm('Delete this customer?');">Delete</a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4" class="empty-row">No customers yet. Register your first one above.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-box">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Register Customer Form -->
+    <div class="order-form-card">
+        <h2>➕ Register New Customer</h2>
+        <form method="POST" action="{{ url_for('customers') }}" class="order-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="text" name="name" placeholder="👤 Full name" required>
+            <input type="text" name="phone" placeholder="📱 Phone number">
+            <input type="email" name="email" placeholder="📧 Email address">
+            <input type="text" name="notes" placeholder="📝 Notes (optional)">
+            <button type="submit">➕ Register</button>
+        </form>
     </div>
 
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
-
-</body>
-</html>
+    <!-- Customers List -->
+    {% for customer in customers %}
+    <div class="customer-card">
+        <div class="customer-info">
+            <div>
+                <div class="customer-name">{{ customer["name"] }}</div>
+                <div class="customer-detail">
+                    {% if customer["phone"] %}📱 {{ customer["phone"] }}{% endif %}
+                    {% if customer["email"] %} &nbsp;|&nbsp; 📧 {{ customer["email"] }}{% endif %}
+                </div>
+            </div>
+            <div class="customer-stats">
+                <span>⭐ {{ customer["loyalty_points"] or 0 }} pts</span>
+                <span>📋 {{ customer["total_orders"] or 0 }} orders</span>
+                <span>💰 ${{ "%.0f"|format(customer["total_spent"] or 0) }}</span>
+            </div>
+        </div>
+        <div class="customer-actions">
+            <a href="{{ url_for('customer_profile', customer_id=customer['id']) }}" class="btn btn-view">👁️ View</a>
+            <a href="{{ url_for('edit_customer', customer_id=customer['id']) }}" class="btn btn-edit">✏️ Edit</a>
+            <a href="{{ url_for('delete_customer', customer_id=customer['id']) }}" class="btn btn-delete" onclick="return confirm('Delete {{ customer['name'] }}?');">🗑️ Delete</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="customer-card" style="text-align:center; color:var(--text-tertiary); justify-content:center; padding:40px;">
+        <div style="font-size:48px; margin-bottom:16px;">📭</div>
+        <h3 style="font-weight:400;">No Customers Yet</h3>
+        <p>Register your first customer above!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

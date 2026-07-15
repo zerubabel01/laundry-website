@@ -1,99 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#0E5C63">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Dashboard - Laundry Service Management System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <script>
-        (function () {
-            var saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
 
-    {% include "_navbar.html" %}
+{% block title %}Dashboard - Laundry Service{% endblock %}
 
-    <!-- Main content -->
-    <div class="dashboard-content">
-        <h1>Welcome back, {{ username }} 👋</h1>
-        <p class="subtitle">Here's an overview of your laundry business.</p>
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+{% endblock %}
 
-        <!-- Stat cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-label">Total Orders</span>
-                <span class="stat-value" data-value="{{ total_orders }}" data-decimals="0">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Pending Orders</span>
-                <span class="stat-value" data-value="{{ pending_orders }}" data-decimals="0">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Completed Today</span>
-                <span class="stat-value" data-value="{{ completed_today }}" data-decimals="0">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Revenue Today</span>
-                <span class="stat-value" data-value="{{ revenue_today }}" data-decimals="2" data-prefix="$">$0.00</span>
-            </div>
+{% block content %}
+{% include "_navbar.html" %}
+
+<div class="dashboard-content">
+    <h1>Welcome back, {{ username }} 👋</h1>
+    <p class="subtitle">Here's an overview of your laundry business.</p>
+
+    <!-- Stat cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total Orders</span>
+            <span class="stat-value" data-value="{{ total_orders }}" data-decimals="0">0</span>
         </div>
-
-        <p class="note">📊 These numbers are now live — pulled straight from your orders database.</p>
+        <div class="stat-card">
+            <span class="stat-label">Pending Orders</span>
+            <span class="stat-value" data-value="{{ pending_orders }}" data-decimals="0">0</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Completed Today</span>
+            <span class="stat-value" data-value="{{ completed_today }}" data-decimals="0">0</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Revenue Today</span>
+            <span class="stat-value" data-value="{{ revenue_today }}" data-decimals="2" data-prefix="$">$0.00</span>
+        </div>
     </div>
 
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <p class="note">📊 These numbers are now live — pulled straight from your orders database.</p>
+</div>
 
-    <script>
-        // Animate each stat number counting up from 0 to its real value
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.stat-value[data-value]').forEach(function (el, index) {
-                const target = parseFloat(el.getAttribute('data-value')) || 0;
-                const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-                const prefix = el.getAttribute('data-prefix') || '';
-                const duration = 800;
-                const startDelay = index * 100; // stagger each card slightly
+<script>
+    // Animate each stat number counting up from 0 to its real value
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.stat-value[data-value]').forEach(function (el, index) {
+            const target = parseFloat(el.getAttribute('data-value')) || 0;
+            const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+            const prefix = el.getAttribute('data-prefix') || '';
+            const duration = 800;
+            const startDelay = index * 100;
 
-                setTimeout(function () {
-                    const startTime = performance.now();
+            setTimeout(function () {
+                const startTime = performance.now();
 
-                    function step(now) {
-                        const elapsed = now - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
-                        const current = target * eased;
-                        el.textContent = prefix + current.toFixed(decimals);
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = target * eased;
+                    el.textContent = prefix + current.toFixed(decimals);
 
-                        if (progress < 1) {
-                            requestAnimationFrame(step);
-                        } else {
-                            el.textContent = prefix + target.toFixed(decimals);
-                        }
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = prefix + target.toFixed(decimals);
                     }
-                    requestAnimationFrame(step);
-                }, startDelay);
-            });
+                }
+                requestAnimationFrame(step);
+            }, startDelay);
         });
-    </script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
-
-</body>
-</html>
+    });
+</script>
+{% endblock %}

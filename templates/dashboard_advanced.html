@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Laundry Service{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .quick-stat {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 16px 20px;
+        text-align: center;
+    }
+    .quick-stat .number {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--primary);
+    }
+    .quick-stat .label {
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+    .quick-stat .icon {
+        font-size: 24px;
+        margin-bottom: 4px;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+    }
+    .recent-orders {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-card);
+        padding: 20px;
+    }
+    .recent-order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--table-row-border);
+    }
+    .recent-order-item:last-child {
+        border-bottom: none;
+    }
+    .status-Pending { background: #fef3c7; color: #92400e; }
+    .status-Completed { background: #d1fae5; color: #065f46; }
+    
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+        .quick-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "_navbar.html" %}
+
+<div class="dashboard-content">
+    <h1>👋 Welcome back, {{ username }}!</h1>
+    <p class="subtitle">Here's your laundry business at a glance.</p>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+        <div class="quick-stat">
+            <div class="icon">📋</div>
+            <div class="number">{{ total_orders }}</div>
+            <div class="label">Total Orders</div>
+        </div>
+        <div class="quick-stat">
+            <div class="icon">⏳</div>
+            <div class="number">{{ pending_orders }}</div>
+            <div class="label">Pending</div>
+        </div>
+        <div class="quick-stat">
+            <div class="icon">✅</div>
+            <div class="number">{{ completed_orders }}</div>
+            <div class="label">Completed</div>
+        </div>
+        <div class="quick-stat">
+            <div class="icon">💰</div>
+            <div class="number">${{ "%.0f"|format(revenue_today) }}</div>
+            <div class="label">Revenue Today</div>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="dashboard-grid">
+        <!-- Recent Orders -->
+        <div class="recent-orders">
+            <h3 style="margin-bottom:16px;">📋 Recent Orders</h3>
+            {% for order in recent_orders[:5] %}
+            <div class="recent-order-item">
+                <div>
+                    <strong>{{ order["customer_name"] }}</strong>
+                    <span style="font-size:13px; color:var(--text-secondary);"> - {{ order["item_description"] }}</span>
+                </div>
+                <div>
+                    <span class="status-badge status-{{ order['status'] }}">
+                        {{ order["status"] }}
+                    </span>
+                    <span style="font-size:13px; color:var(--text-secondary); margin-left:8px;">
+                        ${{ "%.2f"|format(order["price"]) }}
+                    </span>
+                </div>
+            </div>
+            {% else %}
+            <p style="color:var(--text-tertiary); text-align:center;">No orders yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="recent-orders">
+                <h3 style="margin-bottom:16px;">🚀 Quick Actions</h3>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <a href="{{ url_for('orders_advanced') }}" class="action-link edit" style="padding:10px 16px; background:var(--primary); color:white; border-radius:var(--radius-pill); text-align:center; text-decoration:none;">
+                        ➕ New Order
+                    </a>
+                    <a href="{{ url_for('customers') }}" class="action-link edit" style="padding:10px 16px; background:var(--accent); color:white; border-radius:var(--radius-pill); text-align:center; text-decoration:none;">
+                        👤 New Customer
+                    </a>
+                    <a href="{{ url_for('reports') }}" class="action-link edit" style="padding:10px 16px; background:var(--text-secondary); color:white; border-radius:var(--radius-pill); text-align:center; text-decoration:none;">
+                        📊 View Reports
+                    </a>
+                </div>
+            </div>
+            
+            <div class="recent-orders">
+                <h3 style="margin-bottom:16px;">💰 Today's Revenue</h3>
+                <div style="text-align:center;">
+                    <div style="font-size:36px; font-weight:bold; color:var(--primary);">
+                        ${{ "%.2f"|format(revenue_today) }}
+                    </div>
+                    <div style="font-size:13px; color:var(--text-secondary);">
+                        from {{ orders_today }} orders today
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

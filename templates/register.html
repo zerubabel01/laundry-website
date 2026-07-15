@@ -6,12 +6,45 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <meta name="theme-color" content="#0E5C63">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Register - Laundry Service Management System</title>
+    <title>Register - Laundry Service</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        /* Make register page visually different from login */
+        .register-card {
+            border-top: 4px solid var(--accent) !important;
+        }
+        .register-card h2 {
+            color: var(--accent-dark) !important;
+        }                                                                                       
+        .register-card button {
+            background-color: var(--accent) !important;
+        }
+        .register-card button:hover {
+            background-color: var(--accent-dark) !important;
+        }
+        .register-badge {
+            background-color: var(--accent-dark) !important;
+        }
+        
+        /* Password strength indicator */
+        .password-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    
+    <!-- Theme Script -->
     <script>
         (function () {
             var saved = localStorage.getItem('theme');
@@ -23,100 +56,134 @@
 </head>
 <body>
 
-    <button id="theme-toggle" class="theme-toggle theme-toggle-floating" aria-label="Toggle dark mode"></button>
+<!-- Floating theme toggle -->
+<button id="theme-toggle" class="theme-toggle theme-toggle-floating" aria-label="Toggle dark mode"></button>
 
-    <div class="container">
+<div class="container">
+    <!-- Left branding panel -->
+    <div class="left-panel">
+        <!-- Floating bubbles (decorative) -->
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
 
-        <!-- Left branding panel -->
-        <div class="left-panel">
-            <!-- Floating bubbles (decorative) -->
-            <div class="bubble bubble-1"></div>
-            <div class="bubble bubble-2"></div>
-            <div class="bubble bubble-3"></div>
-            <div class="bubble bubble-4"></div>
-
-            <div class="left-panel-content">
-                <div class="badge"><svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <g class="brand-mark-spin">
-                            <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                            <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
-                            <circle cx="50" cy="50" r="9" fill="currentColor"/>
-                        </g>
-                    </svg></div>
-                <h1>Laundry Service<br>Management System</h1>
-                <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
-
-                <!-- Clothesline illustration -->
-                <svg class="clothesline" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <line x1="10" y1="15" x2="290" y2="15" stroke="currentColor" stroke-width="2" opacity="0.5"/>
-
-                    <g class="garment garment-1">
-                        <rect x="35" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M15 25 L35 25 L40 35 L40 75 L10 75 L10 35 Z" fill="currentColor" opacity="0.85"/>
-                    </g>
-
-                    <g class="garment garment-2">
-                        <rect x="95" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M75 25 Q97 18 119 25 L124 40 L112 44 L112 90 L82 90 L82 44 L70 40 Z" fill="currentColor" opacity="0.7"/>
-                    </g>
-
-                    <g class="garment garment-3">
-                        <rect x="160" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <ellipse cx="162" cy="55" rx="18" ry="32" fill="currentColor" opacity="0.85"/>
-                    </g>
-
-                    <g class="garment garment-4">
-                        <rect x="230" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
-                        <path d="M212 25 L232 25 L237 35 L237 70 L207 70 L207 35 Z" fill="currentColor" opacity="0.7"/>
+        <div class="left-panel-content">
+            <div class="badge register-badge">
+                <svg class="brand-mark" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <g class="brand-mark-spin">
+                        <path d="M50 14 C71 14 88 31 88 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                        <path d="M50 86 C29 86 12 69 12 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="9" fill="currentColor"/>
                     </g>
                 </svg>
             </div>
+            <h1>Laundry Service<br>Management System</h1>
+            <p>Manage orders, customers and payments<br>all in one simple dashboard.</p>
+
+            <!-- Clothesline illustration -->
+            <svg class="clothesline" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <line x1="10" y1="15" x2="290" y2="15" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                <g class="garment garment-1">
+                    <rect x="35" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M15 25 L35 25 L40 35 L40 75 L10 75 L10 35 Z" fill="currentColor" opacity="0.85"/>
+                </g>
+                <g class="garment garment-2">
+                    <rect x="95" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M75 25 Q97 18 119 25 L124 40 L112 44 L112 90 L82 90 L82 44 L70 40 Z" fill="currentColor" opacity="0.7"/>
+                </g>
+                <g class="garment garment-3">
+                    <rect x="160" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <ellipse cx="162" cy="55" rx="18" ry="32" fill="currentColor" opacity="0.85"/>
+                </g>
+                <g class="garment garment-4">
+                    <rect x="230" y="15" width="4" height="10" fill="currentColor" opacity="0.5"/>
+                    <path d="M212 25 L232 25 L237 35 L237 70 L207 70 L207 35 Z" fill="currentColor" opacity="0.7"/>
+                </g>
+            </svg>
         </div>
-
-        <!-- Right registration form panel -->
-        <div class="right-panel">
-            <div class="card">
-                <h2>Create Account</h2>
-                <p class="subtitle">Sign up to get started</p>
-
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <div class="error-message">
-                            {% for message in messages %}
-                                <p>{{ message }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-
-                <form method="POST" action="{{ url_for('register') }}">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
-
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Choose a password" required>
-
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
-
-                    <button type="submit">Create Account</button>
-                </form>
-
-                <p class="switch-link">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
-            </div>
-        </div>
-
     </div>
 
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <!-- Right registration form panel -->
+    <div class="right-panel">
+        <div class="card register-card">
+            <h2>✨ Create Account</h2>
+            <p class="subtitle">Join the laundry management system</p>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="error-message">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}">
+                <!-- CSRF Token - Important for security -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username (min 3 characters)" required minlength="3">
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Choose a password (min 6 characters)" required minlength="6">
+                <p class="password-hint">🔒 Password must be at least 6 characters</p>
+                
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p class="switch-link">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+<!-- Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then(function(reg) {
+                    console.log('Service Worker registered successfully');
+                })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed:', err);
+                });
+        });
+    }
+</script>
+
+<!-- Password matching validation (optional client-side check) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var password = document.getElementById('password');
+        var confirm = document.getElementById('confirm_password');
+        var form = document.querySelector('form');
+        
+        form.addEventListener('submit', function(e) {
+            if (password.value !== confirm.value) {
+                e.preventDefault();
+                alert('❌ Passwords do not match! Please try again.');
+                confirm.focus();
+                confirm.style.borderColor = 'red';
+            }
+        });
+        
+        // Remove red border when user starts typing again
+        confirm.addEventListener('input', function() {
+            if (this.style.borderColor === 'red') {
+                this.style.borderColor = '';
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

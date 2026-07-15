@@ -1,34 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#0E5C63">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <title>Edit Customer - Laundry Service Management System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <script>
-        (function () {
-            var saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
 
-    {% include "_navbar.html" %}
+{% block title %}Edit Customer - Laundry Service{% endblock %}
 
-    <div class="dashboard-content">
-        <h1>Edit Customer</h1>
-        <p class="subtitle">Update this customer's contact info.</p>
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    .edit-form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .edit-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .edit-form label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--label-color);
+        margin-bottom: 2px;
+    }
+    .edit-form input,
+    .edit-form textarea {
+        padding: 10px 14px;
+        border: 1px solid var(--input-border);
+        border-radius: var(--radius-input);
+        font-size: 14px;
+        background: var(--input-bg);
+        color: var(--text-primary);
+        width: 100%;
+    }
+    .edit-form input:focus,
+    .edit-form textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+    .edit-form textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    .edit-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+    }
+    .btn-save {
+        padding: 12px 32px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-pill);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+    .btn-save:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    .btn-cancel {
+        padding: 12px 32px;
+        background: var(--text-secondary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-pill);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+    .btn-cancel:hover {
+        background: var(--text-tertiary);
+        transform: translateY(-2px);
+    }
+    .customer-info-box {
+        background: var(--bg);
+        border-radius: var(--radius-card);
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-color);
+    }
+    .customer-info-box .label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .customer-info-box .value {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        .edit-buttons {
+            flex-direction: column;
+        }
+        .btn-save, .btn-cancel {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
 
+{% block content %}
+{% include "_navbar.html" %}
+
+<div class="dashboard-content">
+    <div class="edit-form-container">
+        <h1>✏️ Edit Customer</h1>
+        <p class="subtitle">Update customer information</p>
+
+        <!-- Flash Messages -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="flash-box">
@@ -39,37 +140,61 @@
             {% endif %}
         {% endwith %}
 
+        <!-- Customer Info Box -->
+        <div class="customer-info-box">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div>
+                    <div class="label">📋 Customer ID</div>
+                    <div class="value">#{{ customer["id"] }}</div>
+                </div>
+                <div>
+                    <div class="label">📅 Registered</div>
+                    <div class="value">{{ customer["created_at"] }}</div>
+                </div>
+                <div>
+                    <div class="label">⭐ Loyalty Points</div>
+                    <div class="value">{{ customer["loyalty_points"] or 0 }}</div>
+                </div>
+                <div>
+                    <div class="label">📋 Total Orders</div>
+                    <div class="value">{{ customer["total_orders"] or 0 }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
         <div class="order-form-card">
+            <h2>📝 Customer Details</h2>
             <form method="POST" action="{{ url_for('edit_customer', customer_id=customer['id']) }}" class="edit-form">
-                <label>Full Name</label>
-                <input type="text" name="name" value="{{ customer['name'] }}" required>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                
+                <div class="form-group">
+                    <label for="name">👤 Full Name *</label>
+                    <input type="text" id="name" name="name" value="{{ customer['name'] }}" required>
+                </div>
 
-                <label>Phone</label>
-                <input type="text" name="phone" value="{{ customer['phone'] or '' }}">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">📱 Phone Number</label>
+                        <input type="text" id="phone" name="phone" value="{{ customer['phone'] or '' }}" placeholder="e.g. +1 234 567 890">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">📧 Email Address</label>
+                        <input type="email" id="email" name="email" value="{{ customer['email'] or '' }}" placeholder="customer@example.com">
+                    </div>
+                </div>
 
-                <label>Email</label>
-                <input type="email" name="email" value="{{ customer['email'] or '' }}">
+                <div class="form-group">
+                    <label for="notes">📝 Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Any special notes about this customer...">{{ customer['notes'] or '' }}</textarea>
+                </div>
 
-                <label>Notes</label>
-                <input type="text" name="notes" value="{{ customer['notes'] or '' }}">
-
-                <div class="edit-form-buttons">
-                    <button type="submit">Save Changes</button>
-                    <a href="{{ url_for('customer_profile', customer_id=customer['id']) }}" class="cancel-link">Cancel</a>
+                <div class="edit-buttons">
+                    <button type="submit" class="btn-save">💾 Save Changes</button>
+                    <a href="{{ url_for('customer_profile', customer_id=customer['id']) }}" class="btn-cancel">↩️ Cancel</a>
                 </div>
             </form>
         </div>
     </div>
-
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register("{{ url_for('service_worker') }}");
-            });
-        }
-    </script>
-
-</body>
-</html>
+</div>
+{% endblock %}

@@ -8,26 +8,32 @@
 body {
     background-color: var(--bg);
     color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Navbar */
+/* ==============================
+   NAVBAR
+   ============================== */
 .navbar {
-    background-color: var(--card-bg);
-    color: var(--text-primary);
+    background-color: var(--primary);
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 40px;
-    box-shadow: var(--shadow-card);
-    position: relative;
-    z-index: 5;
+    box-shadow: 0 4px 20px rgba(11, 46, 51, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: #0A1A1C;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .nav-brand {
     font-family: var(--font-display);
     font-size: 19px;
     font-weight: 600;
-    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -38,47 +44,53 @@ body {
     align-items: center;
     gap: 20px;
     font-size: 14px;
-    color: var(--text-secondary);
 }
 
 .nav-links {
     display: flex;
-    gap: 28px;
+    gap: 24px;
 }
 
 .nav-link {
-    color: var(--text-secondary);
+    color: var(--left-panel-text);
     text-decoration: none;
     font-size: 14px;
-    font-weight: 600;
-    transition: color 0.15s ease;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    color: var(--primary);
+    color: white;
 }
 
 .logout-link {
-    background-color: var(--primary);
+    background-color: var(--primary-dark);
     color: white;
     text-decoration: none;
-    padding: 9px 20px;
+    padding: 8px 18px;
     border-radius: var(--radius-pill);
     font-size: 13px;
-    font-weight: 700;
-    box-shadow: var(--shadow-btn);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    transition: background-color 0.3s ease;
 }
 
 .logout-link:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card-hover);
+    background-color: var(--primary-darker);
 }
 
-/* Main content */
+[data-theme="dark"] .logout-link {
+    background-color: #1C4247;
+}
+
+[data-theme="dark"] .logout-link:hover {
+    background-color: #29494C;
+}
+
+/* ==============================
+   MAIN CONTENT
+   ============================== */
 .dashboard-content {
     padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .dashboard-content h1 {
@@ -93,7 +105,9 @@ body {
     margin-bottom: 30px;
 }
 
-/* Stat cards */
+/* ==============================
+   STAT CARDS
+   ============================== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -102,13 +116,19 @@ body {
 
 .stat-card {
     background-color: var(--card-bg);
-    border: none;
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
 }
 
 .stat-label {
@@ -128,24 +148,30 @@ body {
     color: var(--text-tertiary);
 }
 
-/* Flash messages */
+/* ==============================
+   FLASH MESSAGES
+   ============================== */
 .flash-box {
     background-color: var(--flash-bg);
     color: var(--flash-text);
     padding: 10px 16px;
-    border-radius: 8px;
+    border-radius: var(--radius-input);
     font-size: 13px;
     margin-bottom: 20px;
+    border: 1px solid var(--border-color);
 }
 
-/* Add order form card */
+/* ==============================
+   ORDER FORM CARD
+   ============================== */
 .order-form-card {
     background-color: var(--card-bg);
-    border: none;
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     padding: 24px;
     margin-bottom: 30px;
+    transition: all 0.3s ease;
 }
 
 .order-form-card h2 {
@@ -160,38 +186,60 @@ body {
     flex-wrap: wrap;
 }
 
-.order-form input {
+.order-form input,
+.order-form select {
     flex: 1;
     min-width: 160px;
     height: 42px;
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--radius-input);
     padding: 0 12px;
     font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.order-form input:focus {
+.order-form input:focus,
+.order-form select:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
+/* ===== ADD ORDER BUTTON (TEAL) ===== */
 .order-form button {
     height: 42px;
     padding: 0 24px;
     background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-button);
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .order-form button:hover {
     background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
 }
 
-/* Search / filter bar */
+.order-form button:active {
+    transform: translateY(0);
+}
+
+/* ==============================
+   FILTER BAR
+   ============================== */
 .filter-bar {
     margin-bottom: 20px;
 }
@@ -205,45 +253,124 @@ body {
 
 .filter-form input,
 .filter-form select {
-    height: 40px;
+    height: 42px;
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--radius-input);
     padding: 0 12px;
     font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-form input:focus,
+.filter-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .filter-form input {
     min-width: 220px;
 }
+/* ============================================================
+   FORCE FILTER BUTTON TO BE BLUE - OVERRIDE EVERYTHING
+   ============================================================ */
 
-.filter-form button {
-    height: 40px;
-    padding: 0 20px;
-    background-color: var(--text-primary);
-    color: rgb(4, 220, 248);
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
+/* Force Light Mode Blue */
+form.filter-form button[type="submit"],
+.filter-form button,
+.filter-bar .filter-form button,
+div.filter-bar form.filter-form button {
+    background-color: #2563eb !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 999px !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35) !important;
+    font-weight: bold !important;
+    padding: 0 24px !important;
+    height: 42px !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
 }
 
-.filter-form button:hover {
-    background-color: var(--label-color);
+form.filter-form button[type="submit"]:hover,
+.filter-form button:hover,
+.filter-bar .filter-form button:hover {
+    background-color: #1d4ed8 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5) !important;
 }
 
+/* Force Dark Mode Blue */
+[data-theme="dark"] form.filter-form button[type="submit"],
+[data-theme="dark"] .filter-form button,
+[data-theme="dark"] .filter-bar .filter-form button {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 999px !important;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3) !important;
+    font-weight: bold !important;
+    padding: 0 24px !important;
+    height: 42px !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+[data-theme="dark"] form.filter-form button[type="submit"]:hover,
+[data-theme="dark"] .filter-form button:hover,
+[data-theme="dark"] .filter-bar .filter-form button:hover {
+    background-color: #2563eb !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+}
+
+/* ===== DARK MODE FILTER BUTTON - BLUE ===== */
+[data-theme="dark"] .filter-form button {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3) !important;
+}
+
+[data-theme="dark"] .filter-form button:hover {
+    background-color: #2563eb !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+}
+
+/* ===== CLEAR LINK ===== */
 .clear-link {
     font-size: 13px;
     color: var(--text-secondary);
     text-decoration: underline;
+    transition: color 0.3s ease;
+    padding: 8px 12px;
 }
 
-/* Orders table */
+.clear-link:hover {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .clear-link {
+    color: var(--text-tertiary);
+}
+
+[data-theme="dark"] .clear-link:hover {
+    color: var(--text-secondary);
+}
+
+/* ==============================
+   TABLE
+   ============================== */
 .table-card {
     background-color: var(--card-bg);
-    border: none;
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .orders-table {
@@ -267,29 +394,23 @@ body {
     border-bottom: 1px solid var(--table-row-border);
 }
 
+.orders-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.orders-table tbody tr:hover {
+    background-color: var(--table-header-bg);
+}
+
 .empty-row {
     text-align: center;
     color: var(--text-tertiary);
     padding: 30px !important;
 }
 
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.status-pending {
-    background-color: var(--status-pending-bg);
-    color: var(--status-pending-text);
-}
-
-.status-completed {
-    background-color: var(--status-completed-bg);
-    color: var(--status-completed-text);
-}
-
+/* ==============================
+   ACTION LINKS
+   ============================== */
 .actions {
     display: flex;
     gap: 12px;
@@ -299,6 +420,11 @@ body {
     font-size: 13px;
     text-decoration: none;
     font-weight: bold;
+    transition: opacity 0.3s ease;
+}
+
+.action-link:hover {
+    opacity: 0.7;
 }
 
 .action-link.complete {
@@ -313,11 +439,9 @@ body {
     color: var(--primary);
 }
 
-.action-link:hover {
-    text-decoration: underline;
-}
-
-/* Edit order form */
+/* ==============================
+   EDIT FORM
+   ============================== */
 .edit-form {
     display: flex;
     flex-direction: column;
@@ -336,15 +460,19 @@ body {
 .edit-form select {
     height: 42px;
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--radius-input);
     padding: 0 12px;
     font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
 }
 
 .edit-form input:focus,
 .edit-form select:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .edit-form-buttons {
@@ -360,24 +488,29 @@ body {
     background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-button);
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .edit-form-buttons button:hover {
     background-color: var(--primary-dark);
+    transform: translateY(-2px);
 }
 
 .cancel-link {
     font-size: 14px;
     color: var(--text-secondary);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .cancel-link:hover {
     text-decoration: underline;
+    color: var(--text-primary);
 }
 
 .info-row {
@@ -385,9 +518,9 @@ body {
     color: var(--label-color);
 }
 
-/* ------------------------------
-   Responsive: tablets and phones
-   ------------------------------ */
+/* ==============================
+   RESPONSIVE
+   ============================== */
 @media (max-width: 768px) {
     .navbar {
         flex-wrap: wrap;
@@ -399,6 +532,7 @@ body {
         gap: 16px;
         order: 3;
         width: 100%;
+        flex-wrap: wrap;
     }
 
     .dashboard-content {
@@ -438,9 +572,9 @@ body {
     .order-form button,
     .filter-form button {
         width: 100%;
+        justify-content: center;
     }
 
-    /* Make the orders table scroll sideways instead of squishing */
     .table-card {
         overflow-x: auto;
     }
@@ -468,164 +602,54 @@ body {
         gap: 6px;
     }
 }
-
-/* ------------------------------
-   Notification bell
-   ------------------------------ */
-.notification-bell-wrapper {
-    position: relative;
+/* Blue Filter Button */
+.filter-btn {
+    background-color: #2563eb !important;
+    color: rgb(0, 0, 0) !important;
+    border: none !important;
+    border-radius: 999px !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35) !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    padding: 0 24px !important;
+    height: 42px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
 }
 
-.notification-bell {
-    background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 15px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.filter-btn:hover {
+    background-color: #1d4ed8 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5) !important;
 }
 
-.notification-bell:hover {
-    background-color: var(--table-header-bg);
+[data-theme="dark"] .filter-btn {
+    background-color: #3b82f6 !important;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3) !important;
 }
 
-.notification-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background-color: var(--accent-dark);
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    min-width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
+[data-theme="dark"] .filter-btn:hover {
+    background-color: #2563eb !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+}
+/* ==============================
+   DARK MODE CUSTOM SCROLLBAR
+   ============================== */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
 }
 
-.notification-dropdown {
-    display: none;
-    position: absolute;
-    top: 48px;
-    right: 0;
-    width: 280px;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    z-index: 20;
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg);
+    border-radius: 4px;
 }
 
-.notification-dropdown.open {
-    display: block;
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
 }
 
-.notification-item {
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--text-primary);
-    border-bottom: 1px solid var(--table-row-border);
-}
-
-.notification-item.unread {
-    font-weight: 600;
-    background-color: var(--flash-bg);
-}
-
-.notification-view-all {
-    display: block;
-    text-align: center;
-    padding: 10px;
-    font-size: 13px;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.notification-view-all:hover {
-    text-decoration: underline;
-}
-
-/* ------------------------------
-   ANIMATIONS: staggered card entrance
-   ------------------------------ */
-.stat-card {
-    animation: card-fade-up 0.5s ease both;
-}
-
-.stat-card:nth-child(1) { animation-delay: 0.05s; }
-.stat-card:nth-child(2) { animation-delay: 0.15s; }
-.stat-card:nth-child(3) { animation-delay: 0.25s; }
-.stat-card:nth-child(4) { animation-delay: 0.35s; }
-
-.order-form-card,
-.table-card {
-    animation: card-fade-up 0.5s ease 0.1s both;
-}
-
-@keyframes card-fade-up {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.stat-card {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(23, 182, 176, 0.18);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .stat-card, .order-form-card, .table-card {
-        animation: none;
-    }
-}
-
-/* ------------------------------
-   ANIMATIONS: table rows + status badges
-   ------------------------------ */
-.orders-table tbody tr {
-    transition: background-color 0.15s ease;
-}
-
-.orders-table tbody tr:hover {
-    background-color: var(--table-header-bg);
-}
-
-.status-badge {
-    display: inline-block;
-    animation: badge-pop 0.3s ease both;
-}
-
-@keyframes badge-pop {
-    from { opacity: 0; transform: scale(0.7); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* A gentle, slow pulse on Pending badges - draws the eye to what still needs action */
-.status-pending {
-    animation: badge-pop 0.3s ease both, pending-pulse 2.4s ease-in-out 0.3s infinite;
-}
-
-@keyframes pending-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(242, 169, 59, 0.4); }
-    50% { box-shadow: 0 0 0 4px rgba(242, 169, 59, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .status-badge, .status-pending {
-        animation: none;
-    }
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
 }

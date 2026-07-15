@@ -1,10 +1,8 @@
-// A service worker is a script the browser runs in the background,
-// separate from your page. It's what makes "Add to Home Screen" and
-// offline support possible.
+// Service Worker for Laundry Service App
 
-const CACHE_NAME = "laundry-app-v1";
+const CACHE_NAME = "laundry-app-v2";
 
-// Files that rarely change - safe to cache aggressively
+// Files that rarely change - cache aggressively
 const STATIC_ASSETS = [
     "/static/style.css",
     "/static/dashboard.css",
@@ -12,47 +10,73 @@ const STATIC_ASSETS = [
     "/static/theme.js",
     "/static/icons/icon-192.png",
     "/static/icons/icon-512.png",
+    "/static/icons/icon-maskable-512.png",
+    "/static/manifest.json"
 ];
 
-// When the service worker is first installed, pre-cache the static assets
+// Install event - cache static assets
 self.addEventListener("install", (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log("Caching static assets...");
+                return cache.addAll(STATIC_ASSETS);
+            })
+            .then(() => {
+                console.log("All static assets cached!");
+            })
     );
     self.skipWaiting();
 });
 
-// Clean up old caches if this file is ever updated (bump CACHE_NAME above)
+// Activate event - clean up old caches
 self.addEventListener("activate", (event) => {
     event.waitUntil(
-        caches.keys().then((keys) =>
-            Promise.all(
-                keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-            )
-        )
+        caches.keys().then((keys) => {
+            return Promise.all(
+                keys.filter((key) => key !== CACHE_NAME)
+                    .map((key) => {
+                        console.log("Deleting old cache:", key);
+                        return caches.delete(key);
+                    })
+            );
+        })
     );
     self.clients.claim();
 });
 
-// Strategy:
-// - Static files (CSS/JS/icons): serve from cache first, for speed + offline support
-// - Everything else (actual pages with live data): try the network first,
-//   since order/customer data changes constantly and shouldn't go stale.
+// Fetch event - serve cached assets when offline
 self.addEventListener("fetch", (event) => {
-    const isStaticAsset = STATIC_ASSETS.some((path) => event.request.url.includes(path));
+    const url = new URL(event.request.url);
+    const isStaticAsset = STATIC_ASSETS.some((path) => 
+        url.pathname.includes(path)
+    );
 
     if (isStaticAsset) {
+        // Static assets: cache first, then network
         event.respondWith(
-            caches.match(event.request).then((cached) => cached || fetch(event.request))
+            caches.match(event.request)
+                .then((cached) => {
+                    if (cached) {
+                        return cached;
+                    }
+                    return fetch(event.request).then((response) => {
+                        // Cache the new response for next time
+                        const responseClone = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseClone);
+                        });
+                        return response;
+                    });
+                })
         );
     } else {
+        // Everything else: network first, fallback to offline page
         event.respondWith(
-            fetch(event.request).catch(() =>
-                new Response(
-                    "<h1>You're offline</h1><p>Please reconnect to the internet to use the app.</p>",
-                    { headers: { "Content-Type": "text/html" } }
-                )
-            )
+            fetch(event.request)
+                .catch(() => {
+                    return caches.match("/offline.html");
+                })
         );
     }
 });

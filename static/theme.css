@@ -6,98 +6,108 @@
    ============================== */
 
 :root {
+    /* ===== BACKGROUNDS ===== */
     --bg: #F2FBFA;
     --card-bg: #FFFFFF;
-    --border-color: #DCEFEC;
-
+    --border-color: #DCEFED;
+    --input-bg: #FFFFFF;
+    --input-border: #C7E4E1;
+    --table-header-bg: #EDFAF8;
+    --table-row-border: #E6F5F3;
+    
+    /* ===== TEXT COLORS ===== */
     --text-primary: #0B2E33;
     --text-secondary: #4E6E70;
     --text-tertiary: #8AA6A5;
     --label-color: #2F5457;
-
-    --input-bg: #FFFFFF;
-    --input-border: #C9E6E2;
-
-    --primary: #17B6B0;
-    --primary-dark: #109A95;
-    --primary-darker: #0B7873;
-    --left-panel-text: #DFF7F3;
-
+    --left-panel-text: #D7F3EF;
+    
+    /* ===== BRAND COLORS ===== */
+    --primary: #14B8A6;
+    --primary-dark: #0E9488;
+    --primary-darker: #0B2E33;
     --accent: #F2A93B;
     --accent-dark: #D98F1E;
-
-    --error-bg: #FDEBEA;
-    --error-text: #C0392B;
-
-    --flash-bg: #E1F6F3;
-    --flash-text: #0B7873;
-
+    
+    /* ===== STATUS COLORS ===== */
     --status-pending-bg: #FBEACB;
     --status-pending-text: #93650F;
     --status-completed-bg: #DCEEE2;
     --status-completed-text: #276245;
-
-    --table-header-bg: #EEFAF8;
-    --table-row-border: #E7F5F3;
-
-    --dark-btn-bg: #0B2E33;
-    --dark-btn-hover: #123F45;
-
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
+    
+    /* ===== ERROR / FLASH ===== */
+    --error-bg: #FDEBEA;
+    --error-text: #C0392B;
+    --flash-bg: #E1F7F3;
+    --flash-text: #0E7C70;
+    
+    /* ===== BUTTONS ===== */
+    --dark-btn-bg: #2F5457;
+    --dark-btn-hover: #3E6C6F;
+    
+    /* ===== SHADOWS ===== */
+    --shadow-card: 0 10px 30px rgba(11, 46, 51, 0.08);
+    --shadow-card-hover: 0 16px 36px rgba(11, 46, 51, 0.14);
+    --shadow-button: 0 8px 20px rgba(20, 184, 166, 0.35);
+    
+    /* ===== RADIUS ===== */
     --radius-pill: 999px;
-
-    --shadow-card: 0 4px 16px rgba(11, 46, 51, 0.06);
-    --shadow-card-hover: 0 14px 32px rgba(11, 46, 51, 0.12);
-    --shadow-btn: 0 8px 20px rgba(23, 182, 176, 0.28);
-
+    --radius-card: 20px;
+    --radius-input: 12px;
+    
+    /* ===== FONTS ===== */
     --font-display: 'Fraunces', Georgia, serif;
     --font-body: 'Work Sans', Arial, sans-serif;
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
+/* ==============================
+   DARK MODE
+   ============================== */
 [data-theme="dark"] {
-    --bg: #07191B;
+    /* ===== BACKGROUNDS ===== */
+    --bg: #0A1A1C;
     --card-bg: #0F2C2F;
     --border-color: #1C4247;
-
+    --input-bg: #07191B;
+    --input-border: #29494C;
+    --table-header-bg: #0A2224;
+    --table-row-border: #1C4247;
+    
+    /* ===== TEXT COLORS ===== */
     --text-primary: #E8F3F1;
     --text-secondary: #9FC5C0;
     --text-tertiary: #6B9491;
     --label-color: #BEDBD8;
-
-    --input-bg: #07191B;
-    --input-border: #29494C;
-
-    --primary: #2FD4CC;
-    --primary-dark: #22B3AC;
-    --primary-darker: #1A8E88;
-    --left-panel-text: #C8F5EF;
-
+    --left-panel-text: #BFE3DE;
+    
+    /* ===== BRAND COLORS ===== */
+    --primary: #2DD4C4;
+    --primary-dark: #22B8A9;
+    --primary-darker: #17766D;
     --accent: #F2A93B;
     --accent-dark: #F5BC61;
-
-    --error-bg: #3A1613;
-    --error-text: #F1948A;
-
-    --flash-bg: #123B3E;
-    --flash-text: #CFE8E4;
-
+    
+    /* ===== STATUS COLORS ===== */
     --status-pending-bg: #3A2E10;
     --status-pending-text: #F2C464;
     --status-completed-bg: #10331F;
     --status-completed-text: #7FCE9E;
-
-    --table-header-bg: #0A2224;
-    --table-row-border: #1C4247;
-
-    --dark-btn-bg: #123F45;
-    --dark-btn-hover: #1C525A;
-
-    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.25);
-    --shadow-card-hover: 0 14px 32px rgba(0, 0, 0, 0.35);
-    --shadow-btn: 0 8px 20px rgba(47, 212, 204, 0.28);
+    
+    /* ===== ERROR / FLASH ===== */
+    --error-bg: #3A1613;
+    --error-text: #F1948A;
+    --flash-bg: #123B3E;
+    --flash-text: #6FE0D0;
+    
+    /* ===== BUTTONS ===== */
+    --dark-btn-bg: #29494C;
+    --dark-btn-hover: #3A6467;
+    
+    /* ===== SHADOWS ===== */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 16px 36px rgba(0, 0, 0, 0.4);
+    --shadow-button: 0 8px 20px rgba(20, 184, 166, 0.25);
 }
 
 /* ==============================
@@ -105,6 +115,9 @@
    ============================== */
 body {
     font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
@@ -116,10 +129,32 @@ h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
 }
 
 /* ==============================
+   SMOOTH TRANSITIONS
+   ============================== */
+body, 
+.card, 
+.stat-card, 
+.order-form-card, 
+.table-card, 
+.order-card,
+.customer-card,
+input, 
+select, 
+textarea,
+.navbar,
+.left-panel,
+.right-panel,
+.flash-box,
+.error-message,
+.dashboard-content {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* ==============================
    BRAND MARK
-   A stylized washing-machine porthole with a swirl,
-   used in place of a generic icon. Slowly rotates to suggest
-   a drum turning; still for anyone who prefers reduced motion.
    ============================== */
 .brand-mark {
     display: inline-block;
@@ -143,23 +178,35 @@ h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
 }
 
 /* ==============================
-   SIGNATURE: "TICKET STUB" CARDS
-   A nod to a laundry claim ticket - a colored tear-off
-   stripe up top, a dashed edge along the bottom.
+   TICKET STUB CARDS
    ============================== */
 .stat-card,
 .order-form-card,
-.table-card {
+.table-card,
+.order-card,
+.customer-card {
     position: relative;
     overflow: hidden;
-    border: none;
-    border-radius: var(--radius-lg);
+    border-bottom: 2px dashed var(--border-color);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover,
+.order-card:hover,
+.customer-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
 }
 
 .stat-card::before,
 .order-form-card::before,
-.table-card::before {
+.table-card::before,
+.order-card::before,
+.customer-card::before {
     content: "";
     position: absolute;
     top: 0;
@@ -170,10 +217,8 @@ h1, h2, .left-panel h1, .nav-brand, .card h2, .order-form-card h2 {
 }
 
 /* ==============================
-   GLOBAL POLISH: page entrance + consistent interactions
+   PAGE ENTRANCE
    ============================== */
-
-/* Every page fades in gently on load, instead of appearing instantly */
 body {
     animation: page-fade-in 0.35s ease both;
 }
@@ -183,24 +228,26 @@ body {
     to { opacity: 1; }
 }
 
-/* Every button gets a consistent lift-on-hover, press-on-click feel,
-   unless it already defines its own transform (like the theme toggle icon) */
+/* ==============================
+   BUTTONS
+   ============================== */
 button:not(.theme-toggle):not(.notification-bell) {
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    transition: transform 0.15s ease, 
+                box-shadow 0.15s ease, 
+                background-color 0.15s ease;
 }
 
 button:not(.theme-toggle):not(.notification-bell):hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-card-hover);
 }
 
 button:not(.theme-toggle):not(.notification-bell):active {
     transform: translateY(0);
 }
 
-/* Action links (Edit/Complete/Delete/View) get a smooth color transition */
+/* ==============================
+   ACTION LINKS
+   ============================== */
 .action-link {
     transition: opacity 0.15s ease;
 }
@@ -209,11 +256,27 @@ button:not(.theme-toggle):not(.notification-bell):active {
     opacity: 0.7;
 }
 
-/* Flash/error messages slide down and fade in, like a toast notification,
-   instead of just appearing abruptly at the top of the page */
+/* ==============================
+   FLASH / ERROR MESSAGES
+   ============================== */
 .flash-box,
 .error-message {
     animation: toast-in 0.35s ease both;
+    border-radius: var(--radius-input);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.flash-box {
+    background-color: var(--flash-bg);
+    color: var(--flash-text);
+    border: 1px solid var(--border-color);
+}
+
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
 }
 
 @keyframes toast-in {
@@ -221,29 +284,80 @@ button:not(.theme-toggle):not(.notification-bell):active {
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    body, .flash-box, .error-message {
-        animation: none;
-    }
-    button:hover, button:active {
-        transform: none;
-    }
-}
-
-/* Ensure all form fields respect the current theme */
+/* ==============================
+   FORM FIELDS
+   ============================== */
 input, select, textarea {
     background-color: var(--input-bg);
     color: var(--text-primary);
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-input);
+    padding: 10px 14px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 input::placeholder {
     color: var(--text-tertiary);
 }
 
-/* Smooth transition whenever the theme switches */
-body, .card, .stat-card, .order-form-card, .table-card, input, select, .navbar {
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+/* ==============================
+   NAVBAR
+   ============================== */
+.navbar {
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    box-shadow: 0 4px 20px rgba(11, 46, 51, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: #0A1A1C;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link {
+    color: var(--left-panel-text);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.logout-link {
+    background-color: var(--primary-dark);
+    color: white;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-link:hover {
+    background-color: var(--primary-darker);
+}
+
+[data-theme="dark"] .logout-link {
+    background-color: #1C4247;
+}
+
+[data-theme="dark"] .logout-link:hover {
+    background-color: #29494C;
 }
 
 /* ==============================
@@ -261,27 +375,254 @@ body, .card, .stat-card, .order-form-card, .table-card, input, select, .navbar {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .theme-toggle:hover {
     background-color: var(--border-color);
 }
 
-/* On the login/register page, float the toggle top-right */
-.theme-toggle-floating {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: var(--card-bg);
-    z-index: 10;
-}
-
-/* Inside the navbar, toggle matches the light bar background */
 .navbar .theme-toggle {
-    border-color: var(--border-color);
-    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
 }
 
 .navbar .theme-toggle:hover {
-    background-color: var(--table-header-bg);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .theme-toggle-floating {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* ==============================
+   NOTIFICATION BELL
+   ============================== */
+.notification-bell-wrapper {
+    position: relative;
+}
+
+.notification-bell {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.notification-bell:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--accent-dark);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 280px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    z-index: 20;
+}
+
+.notification-dropdown.open {
+    display: block;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--table-row-border);
+}
+
+.notification-item.unread {
+    font-weight: 600;
+    background-color: var(--flash-bg);
+}
+
+.notification-view-all {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.notification-view-all:hover {
+    text-decoration: underline;
+}
+
+/* ==============================
+   STATUS BADGES
+   ============================== */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-Pending {
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-text);
+}
+
+.status-Completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-text);
+}
+
+.status-Ready {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-text);
+}
+
+/* ==============================
+   SERVICE & PAYMENT BADGES
+   ============================== */
+.service-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-Wash { background: #dbeafe; color: #1e40af; }
+.badge-Dry { background: #fce7f3; color: #9d174d; }
+.badge-Iron { background: #fef3c7; color: #92400e; }
+.badge-WashIron { background: #d1fae5; color: #065f46; }
+
+[data-theme="dark"] .badge-Wash { background: #1e3a5f; color: #93bbfc; }
+[data-theme="dark"] .badge-Dry { background: #4a1a2e; color: #f9a8d4; }
+[data-theme="dark"] .badge-Iron { background: #4a3a0a; color: #fcd34d; }
+[data-theme="dark"] .badge-WashIron { background: #0a3a1a; color: #6ee7b7; }
+
+.payment-Cash { background: #d1fae5; color: #065f46; }
+.payment-Card { background: #e0e7ff; color: #3730a3; }
+.payment-Mobile { background: #fce7f3; color: #9d174d; }
+.payment-Bank { background: #fef3c7; color: #92400e; }
+
+[data-theme="dark"] .payment-Cash { background: #0a3a1a; color: #6ee7b7; }
+[data-theme="dark"] .payment-Card { background: #1a1a3a; color: #93bbfc; }
+[data-theme="dark"] .payment-Mobile { background: #3a0a1a; color: #f9a8d4; }
+[data-theme="dark"] .payment-Bank { background: #3a2a0a; color: #fcd34d; }
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px 20px;
+    }
+    .nav-links {
+        gap: 16px;
+        order: 3;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .dashboard-content {
+        padding: 20px;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .stat-card {
+        padding: 16px;
+    }
+    .stat-value {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .nav-brand {
+        font-size: 16px;
+    }
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+.stat-card {
+    animation: card-fade-up 0.5s ease both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.15s; }
+.stat-card:nth-child(3) { animation-delay: 0.25s; }
+.stat-card:nth-child(4) { animation-delay: 0.35s; }
+
+.order-form-card,
+.table-card,
+.order-card,
+.customer-card {
+    animation: card-fade-up 0.5s ease 0.1s both;
+}
+
+@keyframes card-fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.status-badge {
+    display: inline-block;
+    animation: badge-pop 0.3s ease both;
+}
+
+@keyframes badge-pop {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-card, .order-form-card, .table-card, .order-card, .customer-card,
+    .status-badge, body, .flash-box, .error-message {
+        animation: none;
+    }
+    .stat-card:hover, .order-card:hover, .customer-card:hover {
+        transform: none;
+    }
+    button:hover, button:active {
+        transform: none !important;
+    }
 }
