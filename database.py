@@ -1,7 +1,7 @@
 import sqlite3
 import os
-from contextlib import contextmanager
 
+# Get the directory where this file is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_NAME = os.path.join(BASE_DIR, "laundry.db")
 
@@ -13,18 +13,23 @@ def get_connection():
     return conn
 
 
-@contextmanager
 def get_db():
-    """Context manager for database connections - automatically closes the connection."""
-    conn = get_connection()
-    try:
-        yield conn
-        conn.commit()
-    except Exception:
-        conn.rollback()
-        raise
-    finally:
-        conn.close()
+    """Context manager for database connections."""
+    from contextlib import contextmanager
+    
+    @contextmanager
+    def db_connection():
+        conn = get_connection()
+        try:
+            yield conn
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
+    
+    return db_connection()
 
 
 def init_db():
@@ -44,6 +49,11 @@ def init_db():
                 item_description TEXT NOT NULL,
                 price REAL NOT NULL,
                 status TEXT NOT NULL DEFAULT 'Pending',
+                service_type TEXT DEFAULT 'Wash & Fold',
+                payment_method TEXT DEFAULT 'Cash',
+                pickup_address TEXT,
+                delivery_address TEXT,
+                weight REAL DEFAULT 0,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
@@ -54,6 +64,9 @@ def init_db():
                 phone TEXT,
                 email TEXT,
                 notes TEXT,
+                loyalty_points INTEGER DEFAULT 0,
+                total_orders INTEGER DEFAULT 0,
+                total_spent REAL DEFAULT 0,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
@@ -65,7 +78,7 @@ def init_db():
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
-    print(f"Database '{DB_NAME}' is ready.")
+    print("✅ Database ready!")
 
 
 if __name__ == "__main__":
