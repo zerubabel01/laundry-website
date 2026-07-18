@@ -605,7 +605,7 @@ form.filter-form button[type="submit"]:hover,
 /* Blue Filter Button */
 .filter-btn {
     background-color: #2563eb !important;
-    color: rgb(0, 0, 0) !important;
+    color: rgb(249, 249, 249) !important;
     border: none !important;
     border-radius: 999px !important;
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35) !important;
